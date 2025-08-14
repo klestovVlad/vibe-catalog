@@ -5,6 +5,7 @@ import { ShoppingCart, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/lib/store";
+import Image from "next/image";
 
 export function Cart() {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,9 +93,11 @@ export function Cart() {
                       key={item.id}
                       className="flex items-center gap-3 p-3 border rounded-lg"
                     >
-                      <img
+                      <Image
                         src={item.thumbnail}
                         alt={item.title}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 object-cover rounded"
                       />
                       <div className="flex-1 min-w-0">

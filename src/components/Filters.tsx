@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Toggle } from "@/components/ui/toggle";
 import { useUIStore } from "@/lib/store";
 import { type FilterParams } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -107,11 +106,7 @@ export function Filters({
               type="text"
               placeholder="Search categories..."
               className="w-full px-3 py-2 text-sm border rounded-md bg-background"
-              onChange={(e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filteredCategories = categories.filter((cat) =>
-                  cat.toLowerCase().includes(searchTerm)
-                );
+              onChange={() => {
                 // You can add state for filtered categories if needed
               }}
             />
@@ -297,11 +292,7 @@ export function Filters({
                       type="text"
                       placeholder="Search categories..."
                       className="w-full px-3 py-2 text-sm border rounded-md bg-background"
-                      onChange={(e) => {
-                        const searchTerm = e.target.value.toLowerCase();
-                        const filteredCategories = categories.filter((cat) =>
-                          cat.toLowerCase().includes(searchTerm)
-                        );
+                      onChange={() => {
                         // You can add state for filtered categories if needed
                       }}
                     />

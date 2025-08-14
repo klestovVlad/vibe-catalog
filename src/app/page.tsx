@@ -21,7 +21,10 @@ function CatalogContent() {
 
   // Parse URL params into filters
   const [filters, setFilters] = useState<FilterParams>(() => {
-    const params = Object.fromEntries(searchParams.entries());
+    const params: Record<string, string> = {};
+    searchParams.forEach((value, key) => {
+      params[key] = value;
+    });
 
     // Pre-process params to handle arrays properly
     const processedParams: Record<string, string | string[]> = { ...params };
