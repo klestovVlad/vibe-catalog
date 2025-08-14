@@ -13,7 +13,6 @@ import { Cart } from "@/components/Cart";
 import { api } from "@/lib/api";
 import { queryKeys } from "@/lib/queryKeys";
 import { FilterSchema, type FilterParams } from "@/lib/schemas";
-import { useUIStore } from "@/lib/store";
 
 function CatalogContent() {
   const router = useRouter();
@@ -25,7 +24,7 @@ function CatalogContent() {
     const params = Object.fromEntries(searchParams.entries());
 
     // Pre-process params to handle arrays properly
-    const processedParams: Record<string, any> = { ...params };
+    const processedParams: Record<string, string | string[]> = { ...params };
     if (params.category) {
       // Handle both single category and multiple categories
       const categoryValue = params.category;
@@ -67,22 +66,10 @@ function CatalogContent() {
   });
 
   // Fetch categories
-  const {
-    data: categories = [],
-    isLoading: categoriesLoading,
-    error: categoriesError,
-  } = useQuery<string[]>({
+  const { data: categories = [] } = useQuery<string[]>({
     queryKey: queryKeys.categories(),
     queryFn: () => api.getCategories(),
     staleTime: 10 * 60 * 1000, // 10 minutes
-  });
-
-  // Debug categories loading
-  console.log("Categories loading state:", {
-    categories,
-    categoriesLoading,
-    categoriesError,
-    categoriesLength: categories?.length,
   });
 
   const handleSearch = (query: string) => {
@@ -178,11 +165,21 @@ function CatalogContent() {
                   <div className="text-sm text-muted-foreground text-right">
                     <p>{productsData.total} products found</p>
                     {totalPages > 1 && (
-                      <p>
-                        Page {filters.page} of {totalPages}(
-                        {Math.min(filters.limit, productsData.products.length)}{" "}
-                        products on this page)
-                      </p>
+                      <>
+                        {/* Desktop version - full info */}
+                        <p className="hidden md:block">
+                          Page {filters.page} of {totalPages}(
+                          {Math.min(
+                            filters.limit,
+                            productsData.products.length
+                          )}{" "}
+                          products on this page)
+                        </p>
+                        {/* Mobile version - shortened info */}
+                        <p className="md:hidden">
+                          {filters.page}/{totalPages}
+                        </p>
+                      </>
                     )}
                   </div>
                 )}
